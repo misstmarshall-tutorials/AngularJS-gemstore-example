@@ -5,8 +5,11 @@
 	<script type="text/javascript" src="lib/angular.min.js"></script>
 	<script type="text/javascript" src="js/app.js"></script>
 </head>
-<body>
-	<p>I am {{4 + 6}}</p>
-	<p>{{"Hello "+"You"}}</p>
+<body ng-controller="StoreController as store">
+	<div>
+		<h1>Product Name: {{store.product.name}}</h1>
+		<h2>$Product Price: {{store.product.price}}</h2>
+		<p>Product Description: {{store.product.description}}</p>
+	</div>
 </body>
 </html>
