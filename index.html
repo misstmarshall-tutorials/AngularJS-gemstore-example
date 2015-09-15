@@ -6,13 +6,26 @@
 	<script type="text/javascript" src="js/app.js"></script>
 </head>
 <body ng-controller="StoreController as store">
-	<li class="list-group-item" ng-repeat="product in store.products">
-		<h3>
-			{{product.name}}
-			<em class="pull-right">{{product.price | currency}}</em>
-		</h3>
-		<button class="pull-right" ng-show="product.canPurchase">Add to Cart</button>
-		<p>{{product.description}}</p>
-	</li>
+	<!--  Product Container  -->
+	<div class="list-group-item" ng-repeat="product in store.products">
+		<h3> {{product.name}} <em class="pull-right">{{product.price | currency}}</em></h3>
+		
+		<!-- Image Gallery  -->
+		<div class="gallery">
+			<div class="img-wrap">
+				<img ng-src="{{product.images[0]}}"/>
+			</div>
+		</div>
+	<!--
+		<ul class="img-thumbnails clearfix">
+			<li class="small-image pull-left thumbnail" ng-repeat="image in product.images">
+				<img ng-src="{{image}}"/>
+			</li>
+		</ul>
+	-->
+
+	<button class="pull-right" ng-show="product.canPurchase">Add to Cart</button>
+	<p>{{product.description}}</p>
+</div>
 </body>
 </html>
