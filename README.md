@@ -1,2 +1,2 @@
 # AngularJS-gemstore-example
-Code School Tutorial for an interactive web store
+An interactive web store example from Code School
