@@ -6,6 +6,11 @@
 	<script type="text/javascript" src="js/app.js"></script>
 </head>
 <body ng-controller="StoreController as store">
+	<header>
+      <h1 class="text-center">Birthday Gems</h1>
+      <h2 class="text-center">- an Angular store -</h2>
+    </header>
+
 	<!--  Products Container  -->
 	<div class="list-group">
 
@@ -14,12 +19,21 @@
 			<h3> {{product.name}} <em class="pull-right">{{product.price | currency}}</em></h3>
 			
 			<!-- Image Gallery  -->
-			<div ng-show="product.images">
-				<img class="img img-circle img-thumbnail center-block" ng-src="{{product.images[0]}}"/>
-			</div>
-			
-			<button class="pull-right" ng-show="product.canPurchase">Add to Cart</button>
+			<div ng-controller="GalleryController as gallery"  ng-show="product.images.length">
+	          <div class="img-wrap">
+	            <img class="center-block" ng-src="{{product.images[gallery.current]}}" />
+	          </div>
+	          <ul class="img-thumbnails clearfix">
+	            <li class="small-image pull-left thumbnail" ng-repeat="image in product.images">
+	              <img ng-src="{{image}}" />
+	            </li>
+	          </ul>
+	        </div>
+	  
+			<!-- Purchase Button -->
+			<button class="btn btn-primary pull-right" ng-show="product.canPurchase">Add to Cart</button>
 
+			<!-- Tabs Section -->
 			<section ng-controller="PanelController as panel">
 				<ul class="nav nav-pills">
 					<li ng-class="{active:panel.isSelected(1)}"><a href ng-click="panel.selectTab(1)">Description</a></li>
@@ -27,21 +41,68 @@
 					<li ng-class="{active:panel.isSelected(3)}"><a href ng-click="panel.selectTab(3)">Reviews</a></li>
 
 				</ul>
+
+				<!-- Description Container -->
 				<div class="panel" ng-show="panel.isSelected(1)">
 					<h4>Description</h4>
 					<blockquote>{{product.description}}</blockquote>
 				</div>
+
+				<!-- Specification Container -->
 				<div class="panel" ng-show="panel.isSelected(2)">
 					<h4>Specifications</h4>
-					<blockquote>None yet</blockquote>
+					<blockquote>Shine: {{product.shine}}</blockquote>
 				</div>
+
+				<!-- Reviews Container -->
 				<div class="panel" ng-show="panel.isSelected(3)">
 					<h4>Reviews</h4>
-					<blockquote ng-repeat="review in product.reviews">
-						<b>Stars: {{review.stars}}</b>
-						{{review.body}}
-						<cite>{{review.author}}</cite>
-					</blockquote>
+					<li>
+						<blockquote ng-repeat="review in product.reviews">
+							<strong>{{review.stars}} Stars</strong>
+							{{review.body}}
+							<cite class="clearfix">-{{review.author}}</cite>
+						</blockquote>
+					</li>
+
+					<!-- Review Form -->
+					<form name="reviewForm">
+						<!-- Live Preview -->
+						<blockquote>
+							<b>{{review.stars}} Stars</b>
+							{{review.body}}
+							<cite class="clearfix">-{{review.author}}</cite>
+						</blockquote>
+
+						<!-- Review Form -->
+						<h4>Submit a Review</h4>
+						<fieldset class="form-group">
+							<select ng-model="review.stars" class="form-control" ng-options="stars for stars in [5,4,3,2,1]"  title="Stars">
+			                 	<option value="">Rate the Product</option>
+			                </select>
+						</fieldset>
+						<fieldset class="form-group">
+		                <textarea ng-model="review.body"class="form-control" placeholder="Write a short review of the product..." title="Review"></textarea>
+			            </fieldset>
+			            <fieldset class="form-group">
+			            	<input ng-model="review.author" type="email" class="form-control" placeholder="jimmyDean@example.org" title="Email" />
+			            </fieldset>
+			            <fieldset class="form-group">
+			                <input type="submit" class="btn btn-primary pull-right" value="Submit Review" />
+			            </fieldset>
+
+						<select ng-model="review.stars">
+							<option value="1">1 star</option>
+							<option value="2">2 star</option>
+							<option value="3">3 star</option>
+							<option value="4">4 star</option>
+							<option value="5">5 star</option>
+						</select>
+						<textarea ng-model="review.body"></textarea>
+						<label>by: </label>
+						<input ng-model="review.author" type="email"/>
+						<input type="submit" value="Submit"/>
+					</form>
 				</div>
 			</section>
 		</div>
